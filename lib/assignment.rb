@@ -11,15 +11,19 @@ contents = CSV.open(
 contents.each do |row|
   phone = row[:homephone]
 
-  clean_phone = phone.split('').reduce do |result, char|
-    result.push char if char.match?(/[0-9]/)
+  chars = phone.split("")
+  clean_phone = chars.reduce(Array.new) do |ary, char|
+    if char.match?(/[0-9]/)
+      ary.push(char)
+    else
+      ary
+    end
   end
 
-  p clean_phone
-
-  # if phone.size == 10
-  #   puts "#{phone} --- valid"
-  # else
-  #   puts "#{phone} --- invalid"
-  # end
+  if clean_phone.length == 10
+    p clean_phone.join
+  elsif clean_phone.length == 11 && clean_phone[0] == "1"
+    clean_phone.shift
+    p clean_phone.join
+  end
 end

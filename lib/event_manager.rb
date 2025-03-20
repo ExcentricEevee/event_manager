@@ -46,8 +46,8 @@ contents.each do |row|
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
   legislators = legislators_by_zipcode(zipcode)
-
+  
   form_letter = erb_template.result(binding)
-
+  
   save_thank_you_letter(id, form_letter)
 end

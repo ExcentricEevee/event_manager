@@ -1,4 +1,5 @@
 require 'csv'
+require 'time'
 
 puts 'assignment.rb Initialized'
 
@@ -23,6 +24,12 @@ contents = CSV.open(
   header_converters: :symbol
 )
 
+peak_hours = {}
 contents.each do |row|
-  p clean_phone(row[:homephone])
+  #p clean_phone(row[:homephone])
+  hour = Time.strptime(row[:regdate], "%m/%d/%Y %H:%M").hour
+  peak_hours[hour] = 0 if peak_hours[hour].nil?
+  peak_hours[hour] += 1
 end
+
+p peak_hours

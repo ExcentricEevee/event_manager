@@ -18,6 +18,11 @@ def clean_phone(phone)
   end
 end
 
+def peak_time(hash, time)
+  hash[time] = 0 if hash[time].nil?
+  hash[time] += 1
+end
+
 contents = CSV.open(
   'event_attendees.csv',
   headers: true,
@@ -25,11 +30,13 @@ contents = CSV.open(
 )
 
 peak_hours = {}
+peak_weekday = {}
 contents.each do |row|
-  #p clean_phone(row[:homephone])
-  hour = Time.strptime(row[:regdate], "%m/%d/%Y %H:%M").hour
-  peak_hours[hour] = 0 if peak_hours[hour].nil?
-  peak_hours[hour] += 1
+  # p clean_phone(row[:homephone])
+  regtime = Time.strptime(row[:regdate], "%m/%d/%Y %H:%M")
+  peak_time(peak_hours, regtime.hour)
+  peak_time(peak_weekday, regtime.wday)
 end
 
 p peak_hours
+p peak_weekday
